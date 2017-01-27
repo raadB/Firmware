@@ -93,6 +93,12 @@ set(config_module_list
 	modules/uORB/uORB_tests
 	systemcmds/tests
 
+
+		#
+		modules/monitor
+		modules/ipcmonitor
+		modules/secmonitor
+
 	)
 
 set(config_extra_builtin_cmds

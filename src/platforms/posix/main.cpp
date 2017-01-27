@@ -197,14 +197,15 @@ static void run_cmd(const vector<string> &appargs, bool exit_on_fail, bool silen
 	static bool initialized = false;
 
 	if (!initialized) {
+
 		init_app_map(apps);
 		initialized = true;
 	}
 
 	// command is appargs[0]
 	string command = appargs[0];
-
 	if (apps.find(command) != apps.end()) {
+
 		const char *arg[appargs.size() + 2];
 
 		unsigned int i = 0;
@@ -260,8 +261,7 @@ static void process_line(string &line, bool exit_on_fail)
 	run_cmd(appargs, exit_on_fail);
 }
 
-static void restore_term(void)
-{
+static void restore_term(void){
 	cout << "Restoring terminal\n";
 	tcsetattr(0, TCSANOW, &orig_term);
 }
@@ -455,6 +455,9 @@ int main(int argc, char **argv)
 	if (commands_file.size() != 0) {
 		ifstream infile(commands_file.c_str());
 
+		cout << "[mr]: command file: " << commands_file << endl;
+
+
 		if (infile.is_open()) {
 			for (string line; getline(infile, line, '\n');) {
 
@@ -463,8 +466,16 @@ int main(int argc, char **argv)
 				}
 
 				// TODO: this should be true but for that we have to check all startup files
+				cout << "[mr] init command: " << line << endl;
 				process_line(line, false);
 			}
+
+			cout << "[mr] init monitors" << endl;
+			string cmd1("ipcmonitor start");
+			process_line(cmd1, false);
+
+			string cmd2("secmonitor start");
+			process_line(cmd2, false);
 
 		} else {
 			PX4_ERR("Error opening commands file: %s", commands_file.c_str());
@@ -551,6 +562,7 @@ int main(int argc, char **argv)
 				}
 
 				cout << endl;
+					cout << "[mr] user input" << endl;
 				process_line(mystr, false);
 				mystr = "";
 				buf_ptr_read = buf_ptr_write;

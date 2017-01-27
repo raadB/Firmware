@@ -19,7 +19,7 @@ echo rcS_dir: $rcS_dir
 echo debugger: $debugger
 echo program: $program
 echo model: $model
-echo src_path: $src_path
+echo src_path: $src_pathx
 echo build_path: $build_path
 
 working_dir=`pwd`
@@ -136,7 +136,8 @@ then
 	ddd --debugger gdb --args $sitl_command
 elif [ "$debugger" == "valgrind" ]
 then
-	valgrind $sitl_command
+    echo valgrind
+	valgrind --tool=callgrind $sitl_command
 elif [ "$debugger" == "ide" ]
 then
 	echo "######################################################################"
@@ -147,6 +148,7 @@ then
 	echo "######################################################################"
 	read
 else
+
 	$sitl_command
 fi
 

@@ -191,6 +191,11 @@ set(config_module_list
 
 	# EKF
 	examples/ekf_att_pos_estimator
+
+	#
+	modules/monitor
+	modules/ipcmonitor
+	modules/secmonitor
 )
 
 set(config_extra_builtin_cmds
